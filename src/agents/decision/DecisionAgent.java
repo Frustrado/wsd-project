@@ -1,9 +1,9 @@
-package Car;
+package agents.decision;
 import jade.core.Agent;
 
 
 
-public class CarAgent extends Agent{
+public class DecisionAgent extends Agent {
     protected void setup() {
         System.out.println("Agent auto "+getAID().getName()+" zaczal dzialanie.");
     }
@@ -12,6 +12,4 @@ public class CarAgent extends Agent{
         //myGui.dispose();
         System.out.println("Agent auto "+getAID().getName()+" zakonczyl.");
     }
-
-
 }
