@@ -8,4 +8,4 @@ user: postgres
 password: wsdteam123
 port: 5432
 
-tabela creators (id, name, surname) - do testowania połączenia
+tabela creators (id, name, surname, age) - do testowania połączenia
