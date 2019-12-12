@@ -1,7 +1,9 @@
 package agents.assigner.behaviours;
 
+import agents.car.CarGPSPos;
 import jade.core.behaviours.CyclicBehaviour;
 import jade.lang.acl.ACLMessage;
+import jade.lang.acl.UnreadableException;
 
 import javax.swing.*;
 
@@ -10,8 +12,16 @@ public class GetInfoPackage extends CyclicBehaviour {
 
         ACLMessage message = myAgent.receive();
         if(message!=null){
-            System.out.println("message: " + message.getContent());
-            JOptionPane.showMessageDialog(null,"Message:  " + message.getContent());
+            try {
+                CarGPSPos carGPSPos = (CarGPSPos)message.getContentObject();
+                System.out.println("message: " + "x: " + carGPSPos.getxCordOfCar() + " y: " +
+                        carGPSPos.getyCordOfCar());
+                JOptionPane.showMessageDialog(null,"Message:  " +
+                        "x: " + carGPSPos.getxCordOfCar() + " y: " + carGPSPos.getyCordOfCar());
+            } catch (UnreadableException e) {
+                e.printStackTrace();
+            }
+
         }
         else block();
     }
