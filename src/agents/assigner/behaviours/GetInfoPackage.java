@@ -1,27 +1,45 @@
 package agents.assigner.behaviours;
 
 import agents.car.CarGPSPos;
+import jade.core.AID;
 import jade.core.behaviours.CyclicBehaviour;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.UnreadableException;
 
-import javax.swing.*;
 
 public class GetInfoPackage extends CyclicBehaviour {
-    public void action(){
+    private int step = 0;
+    private String candidate;
+    private AID carAgent;
+    public void action() {
 
-        ACLMessage message = myAgent.receive();
-        if(message!=null){
-            try {
-                CarGPSPos carGPSPos = (CarGPSPos)message.getContentObject();
-                System.out.println("message: " + "x: " + carGPSPos.getxCordOfCar() + " y: " +
-                        carGPSPos.getyCordOfCar());
-                JOptionPane.showMessageDialog(null,"Message:  " +
-                        "x: " + carGPSPos.getxCordOfCar() + " y: " + carGPSPos.getyCordOfCar());
-            } catch (UnreadableException e) {
-                e.printStackTrace();
-            }
+        switch (step) {
+            case 0://get car gpspos
+                ACLMessage message = myAgent.receive();//should be table of messages because of many carAgents(but it was only test xd)
+                if (message != null) {
+                    try {
+                        CarGPSPos carGPSPos = (CarGPSPos) message.getContentObject();
+                        System.out.println("message from car: " + "x: " + carGPSPos.getxCordOfCar() + " y: " +
+                                carGPSPos.getyCordOfCar());
+                        carAgent = message.getSender();
+                        step = 1;
+                    } catch (UnreadableException e) {
+                        e.printStackTrace();
+                    }
+                } else block();
+                break;
+            case 1://get candidate from database
+                candidate = "Kandydat"; //for purposes of the test
+                step = 2;
+                break;
+            case 2://reply with candidate pos
+                ACLMessage candidateMessage = new ACLMessage(ACLMessage.INFORM);
+                candidateMessage.setContent(candidate);
+                candidateMessage.addReceiver(carAgent);
+                candidateMessage.setReplyWith("conversation");
+                myAgent.send(candidateMessage);
+                step = 3;
+                break;
         }
-        else block();
     }
 }
