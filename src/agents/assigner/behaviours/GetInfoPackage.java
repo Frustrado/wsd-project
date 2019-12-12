@@ -21,7 +21,6 @@ public class GetInfoPackage extends CyclicBehaviour {
             } catch (UnreadableException e) {
                 e.printStackTrace();
             }
-
         }
         else block();
     }
