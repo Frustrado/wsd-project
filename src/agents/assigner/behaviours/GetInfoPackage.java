@@ -1,6 +1,7 @@
 package agents.assigner.behaviours;
 
-import agents.car.CarGPSPos;
+import agents.assigner.dto.DBConnector;
+import agents.car.dto.GPSPos;
 import jade.core.AID;
 import jade.core.behaviours.CyclicBehaviour;
 import jade.lang.acl.ACLMessage;
@@ -11,6 +12,7 @@ public class GetInfoPackage extends CyclicBehaviour {
     private int step = 0;
     private String candidate;
     private AID carAgent;
+
     public void action() {
 
         switch (step) {
@@ -18,9 +20,9 @@ public class GetInfoPackage extends CyclicBehaviour {
                 ACLMessage message = myAgent.receive();//should be table of messages because of many carAgents(but it was only test xd)
                 if (message != null) {
                     try {
-                        CarGPSPos carGPSPos = (CarGPSPos) message.getContentObject();
-                        System.out.println("message from car: " + "x: " + carGPSPos.getxCordOfCar() + " y: " +
-                                carGPSPos.getyCordOfCar());
+                        GPSPos GPSPos = (GPSPos) message.getContentObject();
+                        System.out.println("message from car: " + "x: " + GPSPos.getxCordOfCar() + " y: " +
+                                GPSPos.getyCordOfCar());
                         carAgent = message.getSender();
                         step = 1;
                     } catch (UnreadableException e) {
@@ -29,16 +31,18 @@ public class GetInfoPackage extends CyclicBehaviour {
                 } else block();
                 break;
             case 1://get candidate from database
+                DBConnector ds = new DBConnector();
+                ds.test();
                 candidate = "Kandydat"; //for purposes of the test
                 step = 2;
                 break;
             case 2://reply with candidate pos
-                ACLMessage candidateMessage = new ACLMessage(ACLMessage.INFORM);
+                ACLMessage candidateMessage = new ACLMessage(ACLMessage.PROPOSE);
                 candidateMessage.setContent(candidate);
                 candidateMessage.addReceiver(carAgent);
                 candidateMessage.setReplyWith("conversation");
                 myAgent.send(candidateMessage);
-                step = 3;
+                step = 0;
                 break;
         }
     }
