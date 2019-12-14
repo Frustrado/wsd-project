@@ -14,5 +14,6 @@ public class CarAgent extends Agent{
     protected void takeDown() {
         //myGui.dispose();
         System.out.println("Agent auto "+getAID().getName()+" zakonczyl.");
+        System.out.println("commit test");
     }
 }
