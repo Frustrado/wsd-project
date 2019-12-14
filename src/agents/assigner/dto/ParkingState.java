@@ -1,4 +1,6 @@
+
 package agents.assigner.dto;
+import java.sql.ResultSet;
 
 public class ParkingState {
     private Integer parkingId;
@@ -10,16 +12,14 @@ public class ParkingState {
     private Double demand;
 
     public ParkingState(Integer parkingId, String name, Integer xPos, Integer yPos, Integer maxPlaces, Integer placesTaken, Double demand){
-        this.name = name;
         this.parkingId = parkingId;
+        this.name = name;
         this.xPos = xPos;
         this.yPos = yPos;
         this.maxPlaces = maxPlaces;
         this.placesTaken = placesTaken;
         this.demand = demand;
     }
-
-    //public ParkingState()
 
     public Double getDemand() {
         return demand;
@@ -47,5 +47,9 @@ public class ParkingState {
 
     public String getName() {
         return name;
+    }
+
+    public String toString(){
+        return "Parking: " + "id: " + this.parkingId.toString() + ": " + "name :" + this.name;
     }
 }
