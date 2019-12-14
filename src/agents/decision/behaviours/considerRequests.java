@@ -6,8 +6,9 @@ import jade.core.behaviours.CyclicBehaviour;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.UnreadableException;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+
+import static java.util.Comparator.*;
 
 
 public class considerRequests extends CyclicBehaviour {
@@ -26,7 +27,7 @@ public class considerRequests extends CyclicBehaviour {
                         try {
                             Proposition prop = (Proposition) message.getContentObject();
                             AID carId = message.getSender();
-                            System.out.println("parking prop from car: " + carId + "x: " + prop.parkingPos.getxCordOfCar() + " y: " + prop.parkingPos.getyCordOfCar());
+                            System.out.println("parking prop from car: " + carId + "x: " + prop.parking.getXPos() + " y: " + prop.parking.getYPos());
                             requests.put(carId, prop);
 
                         } catch (UnreadableException e) {
@@ -56,9 +57,39 @@ public class considerRequests extends CyclicBehaviour {
     }
 
     private void decide() {
+        //ArrayList<Parking> parkingList = getAllParkings();
+        //HashMap<AID, Parking>
+        Map<AID, Integer> parkingDistance = new HashMap<>();
         for(AID carId : requests.keySet()){
-            System.out.println("decision(): " + carId);
-            answers.put(carId, "Accept");
+            Integer xDistance = Math.abs(requests.get(carId).carPos.getxCordOfCar() - requests.get(carId).parking.getXPos());
+            Integer yDistance = Math.abs(requests.get(carId).carPos.getyCordOfCar() - requests.get(carId).parking.getYPos());
+            Integer distance = xDistance +yDistance;
+            parkingDistance.put(carId, distance);
         }
+        Map<AID, Integer> sortedParkingDistance = sortByValue(parkingDistance);
+        for(AID carId : sortedParkingDistance.keySet()){
+            if (requests.get(carId).parking.getPlacesTaken() < requests.get(carId).parking.getMaxPlaces()) {
+                requests.get(carId).parking.setPlacesTaken(requests.get(carId).parking.getPlacesTaken()+1);
+                answers.put(carId, "Accept");
+            } else {
+                answers.put(carId, "Reject");
+            }
+        }
+    }
+
+    private static Map<AID, Integer> sortByValue(Map<AID, Integer> unsortedMap) {
+        // 1. Convert Map to List of Map
+        List<Map.Entry<AID, Integer>> list;
+        list = new LinkedList<Map.Entry<AID, Integer>>(unsortedMap.entrySet());
+        // 2. Sort list with Collections.sort(), provide a custom Comparator
+        //    Try switch the o1 o2 position for a different order
+        Collections.sort(list, comparing(Map.Entry::getValue));
+        // 3. Loop the sorted list and put it into a new insertion order Map LinkedHashMap
+        Map<AID, Integer> sortedMap = new LinkedHashMap<AID, Integer>();
+        for (Map.Entry<AID, Integer> entry : list) {
+            sortedMap.put(entry.getKey(), entry.getValue());
+        }
+
+        return sortedMap;
     }
 }

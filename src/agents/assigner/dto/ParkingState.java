@@ -1,6 +1,8 @@
 package agents.assigner.dto;
 
-public class ParkingState {
+import java.io.Serializable;
+
+public class ParkingState implements Serializable {
     private Integer parkingId;
     private String name;
     private Integer xPos;
@@ -47,5 +49,33 @@ public class ParkingState {
 
     public String getName() {
         return name;
+    }
+
+    public void setParkingId(Integer parkingId) {
+        this.parkingId = parkingId;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setxPos(Integer xPos) {
+        this.xPos = xPos;
+    }
+
+    public void setyPos(Integer yPos) {
+        this.yPos = yPos;
+    }
+
+    public void setMaxPlaces(Integer maxPlaces) {
+        this.maxPlaces = maxPlaces;
+    }
+
+    public void setPlacesTaken(Integer placesTaken) {
+        this.placesTaken = placesTaken;
+    }
+
+    public void setDemand(Double demand) {
+        this.demand = demand;
     }
 }
