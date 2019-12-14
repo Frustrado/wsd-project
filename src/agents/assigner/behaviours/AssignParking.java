@@ -2,7 +2,10 @@ package agents.assigner.behaviours;
 
 import agents.assigner.dto.DBConnector;
 
+import agents.assigner.dto.ParkingState;
+import agents.car.CarAgent;
 import agents.car.dto.GPSPos;
+import agents.decision.dto.Proposition;
 import jade.core.AID;
 import jade.core.behaviours.CyclicBehaviour;
 import jade.lang.acl.ACLMessage;
@@ -21,7 +24,7 @@ public class AssignParking extends CyclicBehaviour {
         switch (step) {
             case 0:
                 // receive GPSPosition from car
-                ACLMessage message = myAgent.receive();
+                ACLMessage message = myAgent.receive(); // TODO message template to differentiate it from AcceptParking
                 if (message != null) {
                     try {
                         gpsPos = (GPSPos) message.getContentObject();
@@ -39,9 +42,18 @@ public class AssignParking extends CyclicBehaviour {
                 break;
 
             case 1:
-                // TODO reply with candidate pos
+                // TODO reply with candidate pos (parking state)
+                ParkingState proposition = new ParkingState();  // TODO create parkingState actually - SQL method
+                ACLMessage propositionMessage = new ACLMessage(ACLMessage.PROPOSE); // TODO propose?
+                propositionMessage.addReceiver(carAgent);
+                try {
+                    propositionMessage.setContentObject(proposition);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                myAgent.send(propositionMessage);
 
-
+                step = 0;   // get back to listening for messages
                 break;
         }
     }
