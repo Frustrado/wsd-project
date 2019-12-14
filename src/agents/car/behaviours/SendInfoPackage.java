@@ -1,8 +1,12 @@
 package agents.car.behaviours;
 
+<<<<<<< HEAD
 import agents.car.CarAgent;
 import agents.car.GPSPos;
 import agents.decision.Proposition;
+=======
+import agents.car.dto.GPSPos;
+>>>>>>> origin/master
 import jade.core.AID;
 import jade.core.behaviours.Behaviour;
 import jade.domain.DFService;
@@ -17,7 +21,11 @@ import java.io.IOException;
 public class SendInfoPackage extends Behaviour {
 
     //generates own GPS Position
+<<<<<<< HEAD
 
+=======
+    GPSPos ownGPSPos = new GPSPos(1,500);
+>>>>>>> origin/master
     private AID[] assignerAgent;
     private AID[] decisionAgent;
     private int step = 0;
@@ -57,7 +65,7 @@ public class SendInfoPackage extends Behaviour {
         }
         switch(step) {
             case 0://send GPSPOS
-                ACLMessage message = new ACLMessage(ACLMessage.REQUEST);
+                ACLMessage message = new ACLMessage(ACLMessage.CFP);
                 message.addReceiver(assignerAgent[0]);
                 try {
                     message.setContentObject(CarAgent.currentPos);
