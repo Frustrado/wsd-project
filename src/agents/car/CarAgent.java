@@ -17,14 +17,12 @@ public class CarAgent extends Agent{
             System.out.println(args[1]);
             int x = Integer.parseInt((String) args[0]);
             int y = Integer.parseInt((String) args[1]);
-            currentPos = new GPSPos(x,y);
+            currentPos = new GPSPos(x,y,false);
 
         }else {
             System.out.println("Starting position not specified");
             doDelete();
         }
-
-
 
         addBehaviour(new SendInfoPackage());
     }
