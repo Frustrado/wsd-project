@@ -34,7 +34,7 @@ public class DBConnector {
         return conn;
     }
 
-    private boolean isParkingFull(Integer parkingId){
+    private boolean isParkingFull(Integer parkingId) {
         String query = "select max_places, places_taken from parkings where id=?";
         PreparedStatement stmt;
         try {
@@ -47,17 +47,17 @@ public class DBConnector {
 
             return max_places == places_taken;
 
-        } catch(SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
             return false;
         }
     }
 
-    public int incrementPlacesTakenByParkingId(Integer id){
+    public int incrementPlacesTakenByParkingId(Integer id) {
         String query = "update parkings set places_taken = places_taken + 1 where id=?";
 
         String sql = "update people set firstname=? , lastname=? where id=?";
-        if (isParkingFull(id)){
+        if (isParkingFull(id)) {
             return 0;
         }
         try {
@@ -65,14 +65,14 @@ public class DBConnector {
             stmt.setInt(1, id);
             return stmt.executeUpdate();
 
-        } catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
             return 0;
         }
     }
 
 
-    public ArrayList<ParkingState> getNearbyParkingsByPositionAndHour (GPSPos position, Integer hour) {
+    public ArrayList<ParkingState> getNearbyParkingsByPositionAndHour(GPSPos position, Integer hour) {
         int maxDistance = 3;
         String query = "select d.park_id, d.demand, p.name, p.xposition, p.yposition, p.max_places, p.places_taken from demand_parkings d join parkings p on d.park_id = p.id " +
                 " where d.from_time < ?::interval and d.to_time >= ?::interval and (p.xposition between ? and ?) and (p.yposition between ? and ?)";
@@ -89,7 +89,7 @@ public class DBConnector {
 
             ResultSet rs = stmt.executeQuery();
             result = new ArrayList<>();
-            while(rs.next()) {
+            while (rs.next()) {
                 int id = rs.getInt("park_id");
                 String name = rs.getString("name");
                 int x_pos = rs.getInt("xposition");
@@ -105,6 +105,7 @@ public class DBConnector {
         }
         return result;
     }
+
     public ArrayList<ParkingState> getAllParkingsByHour(Integer hour) {
         String query = "select d.park_id, d.demand, p.name, p.xposition, p.yposition, p.max_places, p.places_taken from demand_parkings d join parkings p on" +
                 " d.park_id = p.id where d.from_time < ?::interval and d.to_time >= ?::interval ";
@@ -116,7 +117,7 @@ public class DBConnector {
 
             ResultSet rs = stmt.executeQuery();
             result = new ArrayList<>();
-            while(rs.next()) {
+            while (rs.next()) {
                 int id = rs.getInt("park_id");
                 String name = rs.getString("name");
                 int x_pos = rs.getInt("xposition");
@@ -134,7 +135,8 @@ public class DBConnector {
 
 
     }
-    public void test(){
+
+    public void test() {
         String SQL_QUERY = "insert into creators values (9,'Janek','Olga', 33)";
         try {
             PreparedStatement pst = conn.prepareStatement(SQL_QUERY);
@@ -145,7 +147,7 @@ public class DBConnector {
         }
     }
 
-    public boolean disconnect(){
+    public boolean disconnect() {
         try {
             this.conn.close();
             return true;
