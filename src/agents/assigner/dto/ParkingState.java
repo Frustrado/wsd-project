@@ -13,6 +13,16 @@ public class ParkingState implements Serializable {
     private Integer placesTaken;
     private Double demand;
 
+    public ParkingState() {
+        this.parkingId = null;
+        this.name = null;
+        this.xPos = null;
+        this.yPos = null;
+        this.maxPlaces = null;
+        this.placesTaken = null;
+        this.demand = null;
+    }
+
     public ParkingState(Integer parkingId, String name, Integer xPos, Integer yPos, Integer maxPlaces, Integer placesTaken, Double demand){
         this.parkingId = parkingId;
         this.name = name;

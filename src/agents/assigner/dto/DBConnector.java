@@ -53,7 +53,7 @@ public class DBConnector {
         }
     }
 
-    public int incrementPlacesTakenByParkingId(Integer id) {
+    public int incrementPlacesTakenByParkingId(Integer id) {    // TODO return int? or boolean if it fails (so I can use it in if :P)
         String query = "update parkings set places_taken = places_taken + 1 where id=?";
 
         String sql = "update people set firstname=? , lastname=? where id=?";

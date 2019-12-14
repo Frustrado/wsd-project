@@ -1,8 +1,11 @@
 package agents.assigner;
+import agents.assigner.behaviours.AcceptParking;
+import agents.assigner.behaviours.AssignParking;
 import agents.assigner.behaviours.GetInfoPackage;
 import agents.assigner.dto.DBConnector;
 import agents.assigner.dto.ParkingState;
 import agents.car.dto.GPSPos;
+import agents.assigner.dto.DBConnector;
 import jade.core.Agent;
 import jade.domain.DFService;
 import jade.domain.FIPAAgentManagement.DFAgentDescription;
@@ -13,6 +16,8 @@ import java.util.ArrayList;
 
 
 public class AssignerAgent extends Agent {
+    DBConnector DB;
+
     protected void setup() {
         DFAgentDescription dfd = new DFAgentDescription();
         dfd.setName(getAID());
@@ -20,7 +25,7 @@ public class AssignerAgent extends Agent {
         sd.setType("assigner");
         sd.setName("assigner");
         dfd.addServices(sd);
-        DBConnector con = new DBConnector();
+        DB = new DBConnector();
 
         //ArrayList<ParkingState> parkings = con.getAllParkingsByHour(12);
 //        ArrayList<ParkingState> parkings = con.getNearbyParkingsByPositionAndHour(new GPSPos(4, 4, false), 12);
@@ -34,14 +39,12 @@ public class AssignerAgent extends Agent {
             e.printStackTrace();
         }
         System.out.println("Agent auto "+getAID().getName()+" zaczal dzialanie.");
-        addBehaviour(new GetInfoPackage());
+//        addBehaviour(new GetInfoPackage());
+        addBehaviour(new AcceptParking());  // get pos and send parking
+        addBehaviour(new AssignParking());  // get parkingID and send decision
 
-        // two behaviours NO! YES..
-        // get pos and send parking
-        // get parking and send decision
 
-        // one behaviour
-        // get data -> send parking -> get cfp or acc -> send acc or next proposition
+
     }
 
 
@@ -54,6 +57,7 @@ public class AssignerAgent extends Agent {
 
     protected void takeDown() {
         //myGui.dispose();
+        DB.disconnect();
         System.out.println("Agent auto "+getAID().getName()+" zakonczyl.");
     }
 
