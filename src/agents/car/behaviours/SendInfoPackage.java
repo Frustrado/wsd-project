@@ -1,12 +1,9 @@
 package agents.car.behaviours;
 
-<<<<<<< HEAD
+
 import agents.car.CarAgent;
-import agents.car.GPSPos;
-import agents.decision.Proposition;
-=======
 import agents.car.dto.GPSPos;
->>>>>>> origin/master
+import agents.decision.dto.Proposition;
 import jade.core.AID;
 import jade.core.behaviours.Behaviour;
 import jade.domain.DFService;
@@ -20,12 +17,7 @@ import java.io.IOException;
 
 public class SendInfoPackage extends Behaviour {
 
-    //generates own GPS Position
-<<<<<<< HEAD
 
-=======
-    GPSPos ownGPSPos = new GPSPos(1,500);
->>>>>>> origin/master
     private AID[] assignerAgent;
     private AID[] decisionAgent;
     private int step = 0;

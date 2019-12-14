@@ -1,6 +1,6 @@
 package agents.decision.behaviours;
 
-import agents.decision.Proposition;
+import agents.decision.dto.Proposition;
 import jade.core.AID;
 import jade.core.behaviours.CyclicBehaviour;
 import jade.lang.acl.ACLMessage;

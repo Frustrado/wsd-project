@@ -1,11 +1,9 @@
 package agents.assigner.behaviours;
 
-<<<<<<< HEAD
-import agents.car.GPSPos;
-=======
+
 import agents.assigner.dto.DBConnector;
+
 import agents.car.dto.GPSPos;
->>>>>>> origin/master
 import jade.core.AID;
 import jade.core.behaviours.CyclicBehaviour;
 import jade.lang.acl.ACLMessage;
@@ -35,33 +33,22 @@ public class GetInfoPackage extends CyclicBehaviour {
                     }
                 } else block();
                 break;
-            case 1://get candidate from database
-<<<<<<< HEAD
-                step = 2;
-                break;
-            case 2://reply with candidate pos
+
+            case 1://reply with candidate pos
                 GPSPos candidatePos = new GPSPos(1, 10);
                 candidatePos.setxCordOfCar(2);
                 ACLMessage candidateMessage = new ACLMessage(ACLMessage.INFORM);
                 try {
                     candidateMessage.setContentObject(candidatePos);
+                    candidateMessage.addReceiver(carAgent);
+                    candidateMessage.setReplyWith("conversation");
+                    myAgent.send(candidateMessage);
+                    //DBConnector ds = new DBConnector();
+                    step = 0;
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-=======
-                DBConnector ds = new DBConnector();
-                ds.test();
-                candidate = "Kandydat"; //for purposes of the test
-                step = 2;
-                break;
-            case 2://reply with candidate pos
-                ACLMessage candidateMessage = new ACLMessage(ACLMessage.PROPOSE);
-                candidateMessage.setContent(candidate);
->>>>>>> origin/master
-                candidateMessage.addReceiver(carAgent);
-                candidateMessage.setReplyWith("conversation");
-                myAgent.send(candidateMessage);
-                step = 0;
+
                 break;
         }
     }

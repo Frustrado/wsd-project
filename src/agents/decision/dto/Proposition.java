@@ -1,6 +1,6 @@
-package agents.decision;
+package agents.decision.dto;
 
-import agents.car.GPSPos;
+import agents.car.dto.GPSPos;
 
 import java.io.Serializable;
 
