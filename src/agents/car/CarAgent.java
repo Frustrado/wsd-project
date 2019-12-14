@@ -5,6 +5,10 @@ import jade.core.Agent;
 
 public class CarAgent extends Agent{
     public static GPSPos currentPos;
+
+
+
+
     protected void setup() {
         System.out.println("Agent auto "+getAID().getName()+" zaczal dzialanie.");
         currentPos = new GPSPos(1, 500);
