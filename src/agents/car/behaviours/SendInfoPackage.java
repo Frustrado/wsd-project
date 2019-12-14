@@ -1,8 +1,8 @@
 package agents.car.behaviours;
 
 
+import agents.assigner.dto.ParkingState;
 import agents.car.CarAgent;
-import agents.car.dto.GPSPos;
 import agents.decision.dto.Proposition;
 import jade.core.AID;
 import jade.core.behaviours.Behaviour;
@@ -21,7 +21,7 @@ public class SendInfoPackage extends Behaviour {
     private AID[] assignerAgent;
     private AID[] decisionAgent;
     private int step = 0;
-    GPSPos candidateProp;
+    ParkingState candidateProp;
     String decision;
 
     public void action(){
@@ -71,11 +71,11 @@ public class SendInfoPackage extends Behaviour {
                 ACLMessage candidateProposal = myAgent.receive();
                 if (candidateProposal != null) {
                     try {
-                        candidateProp = (GPSPos) candidateProposal.getContentObject();
+                        candidateProp = (ParkingState) candidateProposal.getContentObject();
                     } catch (UnreadableException e) {
                         e.printStackTrace();
                     }
-                    System.out.println("message from Assigner: x=" + candidateProp.getxCordOfCar() +" y=" + candidateProp.getyCordOfCar());
+                    System.out.println("message from Assigner: x=" + candidateProp.getMaxPlaces() +" y=" + candidateProp.getPlacesTaken());
                     step = 2;
                     break;
 
@@ -98,15 +98,36 @@ public class SendInfoPackage extends Behaviour {
                 //System.out.println(answer != null);
                 if (answer != null) {
                     decision = answer.getContent();
-                    System.out.println("decision: " + decision);
-                    step = 4;
+                    if(decision.equals("Accept")){
+                        ACLMessage parkingIDMessage = new ACLMessage(ACLMessage.INFORM);
+                        parkingIDMessage.addReceiver(assignerAgent[0]);
+                        parkingIDMessage.setContent(Integer.toString(candidateProp.getParkingId()));
+                        myAgent.send(parkingIDMessage);
+                        step = 4;
+                    }else{
+                        step=0;
+                    }
                     break;
-
                 } else block();
+
+            case 4:
+                ACLMessage assignerDecision = myAgent.receive();
+                if (assignerDecision != null) {
+                    decision = assignerDecision.getContent();
+                    if(decision.equals("Accept")){
+                        step=5;
+                    }else{
+                        step=0;
+                    }
+                    break;
+                } else block();
+                step=5;
+                break;
         }
     }
     @Override
     public boolean done() {
-        return step==4;
+        System.out.println("Super - mam parking");
+        return step==5;
     }
 }
