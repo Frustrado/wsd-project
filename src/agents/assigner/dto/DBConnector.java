@@ -1,9 +1,6 @@
 package agents.assigner.dto;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class DBConnector {
 
@@ -37,4 +34,17 @@ public class DBConnector {
             e.printStackTrace();
         }
     }
+//
+//    public ResultSet select(String query) {
+//        Statement stmt = null;
+//        try {
+//            stmt = conn.createStatement();
+//            return stmt.executeQuery(query);    // here comes SQL Injection ;)
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//
+//        return null;
+//    }
+
 }
