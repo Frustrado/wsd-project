@@ -1,6 +1,12 @@
 package agents.assigner.dto;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.Statement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class DBConnector {
 
@@ -24,6 +30,20 @@ public class DBConnector {
         }
         return conn;
     }
+
+    public ArrayList<ParkingState> getAllParkings{
+        String query = "select d.park_id, d.demand, p.name, p.xposition, p.yposition, p.max_places, p.places_taken from demand_parkings d join parkings p on d.park_id = p.id";
+
+        try {
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        ArrayList<ParkingState> result;
+
+    }
+    private ResultSet executeSelectQuery(string queryString, )
     public void test(){
         String SQL_QUERY = "insert into creators values (9,'Janek','Olga', 33)";
         try {

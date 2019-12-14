@@ -8,3 +8,6 @@ user: postgres
 port: 5432
 
 tabela creators (id, name, surname, age) - do testowania połączenia
+
+
+Program arguemtns : -gui assigner:agents.assigner.AssignerAgent;decisioner:agents.decision.DecisionAgent

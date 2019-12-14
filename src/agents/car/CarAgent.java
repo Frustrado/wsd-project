@@ -1,7 +1,12 @@
 package agents.car;
+import agents.assigner.behaviours.GetInfoPackage;
 import agents.car.behaviours.SendInfoPackage;
 import agents.car.dto.GPSPos;
 import jade.core.Agent;
+import jade.domain.DFService;
+import jade.domain.FIPAAgentManagement.DFAgentDescription;
+import jade.domain.FIPAAgentManagement.ServiceDescription;
+import jade.domain.FIPAException;
 
 public class CarAgent extends Agent{
     public static GPSPos currentPos;
@@ -10,7 +15,7 @@ public class CarAgent extends Agent{
 
 
     protected void setup() {
-        System.out.println("Agent auto "+getAID().getName()+" zaczal dzialanie.");
+        //System.out.println("Agent auto "+getAID().getName()+" zaczal dzialanie.");
         Object[] args = getArguments();
         if (args!= null && args.length>0){
             System.out.println(args[0]);
@@ -23,6 +28,19 @@ public class CarAgent extends Agent{
             System.out.println("Starting position not specified");
             doDelete();
         }
+        DFAgentDescription dfd = new DFAgentDescription();
+        dfd.setName(getAID());
+        ServiceDescription sd = new ServiceDescription();
+        sd.setType("car");
+        sd.setName("car");
+        dfd.addServices(sd);
+        try {
+            DFService.register(this, dfd);
+        } catch (FIPAException e) {
+            e.printStackTrace();
+        }
+        System.out.println("Agent auto "+getAID().getName()+" zaczal dzialanie.");
+        addBehaviour(new GetInfoPackage());
 
         addBehaviour(new SendInfoPackage());
     }
