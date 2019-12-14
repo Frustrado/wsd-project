@@ -19,7 +19,7 @@ public class DBConnector {
 
     private Connection getConnection() throws SQLException {
         conn = DriverManager.getConnection(
-            "jdbc:postgresql://34.77.32.223:5432/postgres", "postgres", "wsdteam123");
+                "jdbc:postgresql://34.77.32.223:5432/postgres", "postgres", "wsdteam123");
         if (conn != null) {
             System.out.println("Connected to the database!");
         } else {
@@ -27,6 +27,7 @@ public class DBConnector {
         }
         return conn;
     }
+
     public void test(){
         String SQL_QUERY = "insert into creators values (9,'Janek','Olga', 33)";
         try {
