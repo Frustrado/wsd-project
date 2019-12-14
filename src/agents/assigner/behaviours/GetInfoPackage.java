@@ -35,7 +35,7 @@ public class GetInfoPackage extends CyclicBehaviour {
                 break;
 
             case 1://reply with candidate pos
-                GPSPos candidatePos = new GPSPos(1, 10);
+                GPSPos candidatePos = new GPSPos(1, 10, true);
                 candidatePos.setxCordOfCar(2);
                 ACLMessage candidateMessage = new ACLMessage(ACLMessage.INFORM);
                 try {

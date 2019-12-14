@@ -24,6 +24,14 @@ public class AssignerAgent extends Agent {
         addBehaviour(new GetInfoPackage());
     }
 
+
+    protected Integer calculateNeed(){
+        //TODO calculate need based on DBRecord and car position
+        return 0;
+
+
+    }
+
     protected void takeDown() {
         //myGui.dispose();
         System.out.println("Agent auto "+getAID().getName()+" zakonczyl.");
