@@ -1,4 +1,5 @@
 package agents.decision;
+import agents.decision.behaviours.considerRequests;
 import jade.core.Agent;
 import jade.domain.DFService;
 import jade.domain.FIPAAgentManagement.DFAgentDescription;
@@ -8,7 +9,7 @@ import jade.domain.FIPAException;
 
 public class DecisionAgent extends Agent {
     protected void setup() {
-        System.out.println("Agent auto "+getAID().getName()+" zaczal dzialanie.");
+        System.out.println("Decision Agent:  "+getAID().getName()+" zaczal dzialanie.");
         DFAgentDescription dfd = new DFAgentDescription();
         dfd.setName(getAID());
         ServiceDescription sd = new ServiceDescription();
@@ -20,6 +21,7 @@ public class DecisionAgent extends Agent {
         } catch (FIPAException e) {
             e.printStackTrace();
         }
+        addBehaviour(new considerRequests());
     }
 
     protected void takeDown() {

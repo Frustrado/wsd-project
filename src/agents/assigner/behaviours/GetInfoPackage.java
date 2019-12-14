@@ -6,10 +6,11 @@ import jade.core.behaviours.CyclicBehaviour;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.UnreadableException;
 
+import java.io.IOException;
+
 
 public class GetInfoPackage extends CyclicBehaviour {
     private int step = 0;
-    private String candidate;
     private AID carAgent;
     public void action() {
 
@@ -29,16 +30,21 @@ public class GetInfoPackage extends CyclicBehaviour {
                 } else block();
                 break;
             case 1://get candidate from database
-                candidate = "Kandydat"; //for purposes of the test
                 step = 2;
                 break;
             case 2://reply with candidate pos
+                GPSPos candidatePos = new GPSPos(1, 10);
+                candidatePos.setxCordOfCar(2);
                 ACLMessage candidateMessage = new ACLMessage(ACLMessage.INFORM);
-                candidateMessage.setContent(candidate);
+                try {
+                    candidateMessage.setContentObject(candidatePos);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 candidateMessage.addReceiver(carAgent);
                 candidateMessage.setReplyWith("conversation");
                 myAgent.send(candidateMessage);
-                step = 3;
+                step = 0;
                 break;
         }
     }
