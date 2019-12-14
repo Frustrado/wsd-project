@@ -19,6 +19,8 @@ public class ParkingState {
         this.demand = demand;
     }
 
+    //public ParkingState()
+
     public Double getDemand() {
         return demand;
     }
@@ -26,6 +28,7 @@ public class ParkingState {
     public Integer getMaxPlaces() {
         return maxPlaces;
     }
+
     public Integer getParkingId() {
         return parkingId;
     }
