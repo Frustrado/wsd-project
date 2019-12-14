@@ -9,26 +9,27 @@ import jade.lang.acl.ACLMessage;
 import jade.lang.acl.UnreadableException;
 
 import java.io.IOException;
+import java.sql.ResultSet;
 
 
-public class AssignParking extends CyclicBehaviour {
+public class AcceptParking extends CyclicBehaviour {
     private int step = 0;
     private AID carAgent;
-    private GPSPos gpsPos;
+    private ResultSet parking;
 
     public void action() {
 
         switch (step) {
             case 0:
-                // receive GPSPosition from car
+                // receive parking info from car
                 ACLMessage message = myAgent.receive();
                 if (message != null) {
                     try {
-                        gpsPos = (GPSPos) message.getContentObject();
+                        parking = (ResultSet) message.getContentObject();   // TODO change type probably
                         carAgent = message.getSender();
                         step = 1;
 
-                        System.out.println("message from car: " + carAgent.getName() + "\nx: " + gpsPos.getxCordOfCar() + "\ny: " + gpsPos.getyCordOfCar());
+//                        System.out.println("message from car: " + carAgent.getName() + "\nx: " + gpsPos.getxCordOfCar() + "\ny: " + gpsPos.getyCordOfCar());
 
                     } catch (UnreadableException e) {
                         e.printStackTrace();
@@ -39,11 +40,11 @@ public class AssignParking extends CyclicBehaviour {
                 break;
 
             case 1:
-                // TODO reply with candidate pos
-
+                // TODO reply with decision :)
 
                 break;
         }
     }
+
 
 }
