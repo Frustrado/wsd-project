@@ -22,6 +22,13 @@ public class AssignerAgent extends Agent {
         }
         System.out.println("Agent auto "+getAID().getName()+" zaczal dzialanie.");
         addBehaviour(new GetInfoPackage());
+
+        // two behaviours NO! YES..
+        // get pos and send parking
+        // get parking and send decision
+
+        // one behaviour
+        // get data -> send parking -> get cfp or acc -> send acc or next proposition
     }
 
 

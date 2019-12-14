@@ -23,7 +23,7 @@ public class DBConnector {
 
     private Connection getConnection() throws SQLException {
         conn = DriverManager.getConnection(
-                "jdbc:postgresql://34.77.32.223:5432/postgres", "postgres", "wsdteam123");
+            "jdbc:postgresql://34.77.32.223:5432/postgres", "postgres", "wsdteam123");
         if (conn != null) {
             System.out.println("Connected to the database!");
         } else {
@@ -104,4 +104,17 @@ public class DBConnector {
             e.printStackTrace();
         }
     }
+//
+//    public ResultSet select(String query) {
+//        Statement stmt = null;
+//        try {
+//            stmt = conn.createStatement();
+//            return stmt.executeQuery(query);    // here comes SQL Injection ;)
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//
+//        return null;
+//    }
+
 }
