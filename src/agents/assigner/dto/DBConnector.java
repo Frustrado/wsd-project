@@ -1,5 +1,7 @@
 package agents.assigner.dto;
 
+import agents.car.dto.GPSPos;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -69,12 +71,50 @@ public class DBConnector {
         }
     }
 
-    public ArrayList<ParkingState> getAllParkingsByHour(int hour) {
-        String query = "select d.park_id, d.demand, p.name, p.xposition, p.yposition, p.max_places, p.places_taken from demand_parkings d join parkings p on d.park_id = p.id";
+
+    public ArrayList<ParkingState> getNearbyParkingsByPositionAndHour (GPSPos position, Integer hour) {
+        int maxDistance = 3;
+        String query = "select d.park_id, d.demand, p.name, p.xposition, p.yposition, p.max_places, p.places_taken from demand_parkings d join parkings p on d.park_id = p.id " +
+                " where d.from_time < ?::interval and d.to_time >= ?::interval and (p.xposition between ? and ?) and (p.yposition between ? and ?)";
+
         ArrayList<ParkingState> result;
         try {
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery(query);
+            PreparedStatement stmt = conn.prepareStatement(query);
+            stmt.setString(1, hour.toString());
+            stmt.setString(2, hour.toString());
+            stmt.setInt(3, position.getxCordOfCar() - maxDistance);
+            stmt.setInt(4, position.getxCordOfCar() + maxDistance);
+            stmt.setInt(5, position.getyCordOfCar() - maxDistance);
+            stmt.setInt(6, position.getyCordOfCar() + maxDistance);
+
+            ResultSet rs = stmt.executeQuery();
+            result = new ArrayList<>();
+            while(rs.next()) {
+                int id = rs.getInt("park_id");
+                String name = rs.getString("name");
+                int x_pos = rs.getInt("xposition");
+                int y_pos = rs.getInt("yposition");
+                int max_places = rs.getInt("max_places");
+                int places_taken = rs.getInt("places_taken");
+                double demand = rs.getDouble("demand");
+                result.add(new ParkingState(id, name, x_pos, y_pos, max_places, places_taken, demand));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            result = new ArrayList<>();
+        }
+        return result;
+    }
+    public ArrayList<ParkingState> getAllParkingsByHour(Integer hour) {
+        String query = "select d.park_id, d.demand, p.name, p.xposition, p.yposition, p.max_places, p.places_taken from demand_parkings d join parkings p on" +
+                " d.park_id = p.id where d.from_time < ?::interval and d.to_time >= ?::interval ";
+        ArrayList<ParkingState> result;
+        try {
+            PreparedStatement stmt = conn.prepareStatement(query);
+            stmt.setString(1, hour.toString());
+            stmt.setString(2, hour.toString());
+
+            ResultSet rs = stmt.executeQuery();
             result = new ArrayList<>();
             while(rs.next()) {
                 int id = rs.getInt("park_id");
@@ -102,6 +142,16 @@ public class DBConnector {
 
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+    }
+
+    public boolean disconnect(){
+        try {
+            this.conn.close();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
         }
     }
 }
