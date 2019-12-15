@@ -1,6 +1,7 @@
 package agents.assigner.dto;
 
 import agents.car.dto.GPSPos;
+import org.postgresql.core.SqlCommand;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -136,14 +137,15 @@ public class DBConnector {
 
     }
 
-    public void test() {
-        String SQL_QUERY = "insert into creators values (9,'Janek','Olga', 33)";
+    public boolean resetParkingsState(){
+        String query = "update parkings set places_taken=0";
         try {
-            PreparedStatement pst = conn.prepareStatement(SQL_QUERY);
-            pst.executeQuery();
-
-        } catch (SQLException e) {
+            Statement stmt = conn.createStatement();
+            stmt.executeUpdate(query);
+            return true;
+        } catch (SQLException e){
             e.printStackTrace();
+            return false;
         }
     }
 
