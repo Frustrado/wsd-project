@@ -73,7 +73,7 @@ public class DBConnector {
 
 
     public ArrayList<ParkingState> getNearbyParkingsByPositionAndHour(GPSPos position, Integer hour) {
-        int maxDistance = 3;
+        int maxDistance = 10;
         String query = "select d.park_id, d.demand, p.name, p.xposition, p.yposition, p.max_places, p.places_taken from demand_parkings d join parkings p on d.park_id = p.id " +
                 " where d.from_time < ?::interval and d.to_time >= ?::interval and (p.xposition between ? and ?) and (p.yposition between ? and ?)";
 

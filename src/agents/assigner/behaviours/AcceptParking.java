@@ -17,7 +17,7 @@ import java.sql.ResultSet;
 public class AcceptParking extends CyclicBehaviour {
     private int step = 0;
     private AID carAgent;
-    private Integer parkingID;
+    private String parkingID;
     private DBConnector DB = new DBConnector();
 
     public void action() {
@@ -28,16 +28,12 @@ public class AcceptParking extends CyclicBehaviour {
                 MessageTemplate mt = MessageTemplate.MatchPerformative(ACLMessage.INFORM);
                 ACLMessage message = myAgent.receive(mt); // message template to differentiate it from AssignParking
                 if (message != null) {
-                    try {
-                        parkingID = (Integer) message.getContentObject();
-                        carAgent = message.getSender();
-                        step = 1;
+                    parkingID = (String) message.getContent();
+                    carAgent = message.getSender();
+                    step = 1;
 
-                        System.out.println("message from car: " + carAgent.getName() + "\nParking ID:" + parkingID.toString());
+                    System.out.println("message from car: " + carAgent.getName() + "\nParking ID:" + parkingID.toString());
 
-                    } catch (UnreadableException e) {
-                        e.printStackTrace();
-                    }
                 } else
                     block();
 
@@ -46,23 +42,15 @@ public class AcceptParking extends CyclicBehaviour {
             case 1:
                 // reply with decision :)
 
-                if (DB.incrementPlacesTakenByParkingId(parkingID) == 0) {   // TODO == 0 ? if 0 then refuse
+                if (DB.incrementPlacesTakenByParkingId(Integer.valueOf(parkingID)) == 0) {   // TODO == 0 ? if 0 then refuse
                     ACLMessage propositionMessage = new ACLMessage(ACLMessage.REFUSE); // TODO refuse?
                     propositionMessage.addReceiver(carAgent);
-                    try {
-                        propositionMessage.setContentObject("Refuse");
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    propositionMessage.setContent("Refuse");
                     myAgent.send(propositionMessage);
                 } else {
                     ACLMessage propositionMessage = new ACLMessage(ACLMessage.AGREE); // TODO agree?
                     propositionMessage.addReceiver(carAgent);
-                    try {
-                        propositionMessage.setContentObject("Accept");
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    propositionMessage.setContent("Accept");
                     myAgent.send(propositionMessage);
                 }
 

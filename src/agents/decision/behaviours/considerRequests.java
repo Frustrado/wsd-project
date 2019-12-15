@@ -21,13 +21,14 @@ public class considerRequests extends CyclicBehaviour {
             case 0:
                 System.out.println("case 0");
                 ACLMessage message = null;
-                while(requests.size()<3){
+                while(requests.size()<1){
                     message = myAgent.receive();//should be table of messages because of many carAgents(but it was only test xd)
                     if (message != null) {
                         try {
                             Proposition prop = (Proposition) message.getContentObject();
                             AID carId = message.getSender();
-                            System.out.println("parking prop from car: " + carId + "x: " + prop.parking.getXPos() + " y: " + prop.parking.getYPos());
+                            System.out.println("parking prop from car: " + carId.getName() + "x: " + prop.parking.getXPos() + " y: " + prop.parking.getYPos());
+                            System.out.println("car: " + prop.carPos);
                             requests.put(carId, prop);
 
                         } catch (UnreadableException e) {

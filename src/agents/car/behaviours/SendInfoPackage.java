@@ -26,7 +26,7 @@ public class SendInfoPackage extends Behaviour {
 
     public void action(){
         //assigner
-        DFAgentDescription template = new DFAgentDescription();
+        DFAgentDescription template  = new DFAgentDescription();
         ServiceDescription sd = new ServiceDescription();
         sd.setType("assigner");
         template.addServices(sd);
@@ -77,9 +77,9 @@ public class SendInfoPackage extends Behaviour {
                     }
                     System.out.println("message from Assigner: x=" + candidateProp.getMaxPlaces() +" y=" + candidateProp.getPlacesTaken());
                     step = 2;
-                    break;
 
                 } else block();
+                break;
             case 2:
                 //System.out.println("proposition y: " + candidateProp.getyCordOfCar());
                 Proposition request = new Proposition(CarAgent.currentPos, candidateProp);
@@ -107,8 +107,8 @@ public class SendInfoPackage extends Behaviour {
                     }else{
                         step=0;
                     }
-                    break;
                 } else block();
+                break;
 
             case 4:
                 ACLMessage assignerDecision = myAgent.receive();
@@ -116,18 +116,17 @@ public class SendInfoPackage extends Behaviour {
                     decision = assignerDecision.getContent();
                     if(decision.equals("Accept")){
                         step=5;
+                        System.out.println("super - mam parking");
                     }else{
                         step=0;
                     }
                     break;
                 } else block();
-                step=5;
                 break;
         }
     }
     @Override
     public boolean done() {
-        System.out.println("Super - mam parking");
         return step==5;
     }
 }
