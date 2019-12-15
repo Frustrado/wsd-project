@@ -40,7 +40,7 @@ public class CarAgent extends Agent{
             e.printStackTrace();
         }
         System.out.println("Agent auto "+getAID().getName()+" zaczal dzialanie.");
-        addBehaviour(new GetInfoPackage());
+        //addBehaviour(new GetInfoPackage());
 
         addBehaviour(new SendInfoPackage());
     }
