@@ -1,5 +1,5 @@
 package agents.car;
-import agents.assigner.behaviours.GetInfoPackage;
+
 import agents.car.behaviours.SendInfoPackage;
 import agents.car.dto.GPSPos;
 import jade.core.Agent;
@@ -9,19 +9,14 @@ import jade.domain.FIPAAgentManagement.ServiceDescription;
 import jade.domain.FIPAException;
 
 public class CarAgent extends Agent{
-    public static GPSPos currentPos;
 
-    public static GPSPos targetPos;
-
+    private GPSPos currentPos;
 
     protected void setup() {
-        //System.out.println("Agent auto "+getAID().getName()+" zaczal dzialanie.");
         Object[] args = getArguments();
         if (args!= null && args.length>0){
-            System.out.println(args[0]);
-            System.out.println(args[1]);
-            int x = Integer.parseInt((String) args[0]);
-            int y = Integer.parseInt((String) args[1]);
+            int x = (int) args[0];
+            int y = (int) args[1];
             currentPos = new GPSPos(x,y,false);
 
         }else {
@@ -40,13 +35,11 @@ public class CarAgent extends Agent{
             e.printStackTrace();
         }
         System.out.println("Agent auto "+getAID().getName()+" zaczal dzialanie.");
-        //addBehaviour(new GetInfoPackage());
 
-        addBehaviour(new SendInfoPackage());
+        addBehaviour(new SendInfoPackage(currentPos));
     }
 
     protected void takeDown() {
-        //myGui.dispose();
         System.out.println("Agent auto "+getAID().getName()+" zakonczyl.");
 
     }

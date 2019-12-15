@@ -2,7 +2,7 @@ package agents.car.behaviours;
 
 
 import agents.assigner.dto.ParkingState;
-import agents.car.CarAgent;
+import agents.car.dto.GPSPos;
 import agents.decision.dto.Proposition;
 import jade.core.AID;
 import jade.core.behaviours.Behaviour;
@@ -14,15 +14,20 @@ import jade.lang.acl.ACLMessage;
 import jade.lang.acl.UnreadableException;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 
 public class SendInfoPackage extends Behaviour {
 
-
+    private GPSPos currPos;
+    public SendInfoPackage(GPSPos currPos){
+        this.currPos = currPos;
+    }
     private AID[] assignerAgent;
     private AID[] decisionAgent;
     private int step = 0;
-    ParkingState candidateProp;
-    String decision;
+    private ParkingState candidateProp;
+    private String decision;
+
 
     public void action(){
         //assigner
@@ -57,15 +62,18 @@ public class SendInfoPackage extends Behaviour {
         }
         switch(step) {
             case 0://send GPSPOS
-                ACLMessage message = new ACLMessage(ACLMessage.CFP);
-                message.addReceiver(assignerAgent[0]);
-                try {
-                    message.setContentObject(CarAgent.currentPos);
-                } catch (IOException e) {
-                    e.printStackTrace();
+                //startuja w danym przedziale czasowmy
+                if(LocalDateTime.now().getSecond()>0 && LocalDateTime.now().getSecond()<10) {
+                    ACLMessage message = new ACLMessage(ACLMessage.CFP);
+                    message.addReceiver(assignerAgent[0]);
+                    try {
+                        message.setContentObject(currPos);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    myAgent.send(message);
+                    step = 1;
                 }
-                myAgent.send(message);
-                step = 1;
                 break;
             case 1://get candidate propose from Assigner
                 ACLMessage candidateProposal = myAgent.receive();
@@ -75,14 +83,14 @@ public class SendInfoPackage extends Behaviour {
                     } catch (UnreadableException e) {
                         e.printStackTrace();
                     }
-                    System.out.println("message from Assigner: x=" + candidateProp.getMaxPlaces() +" y=" + candidateProp.getPlacesTaken());
+                    //System.out.println("message from Assigner: x=" + candidateProp.getMaxPlaces() +" y=" + candidateProp.getPlacesTaken());
                     step = 2;
 
                 } else block();
                 break;
             case 2:
                 //System.out.println("proposition y: " + candidateProp.getyCordOfCar());
-                Proposition request = new Proposition(CarAgent.currentPos, candidateProp);
+                Proposition request = new Proposition(currPos, candidateProp);
                 ACLMessage requestMessage = new ACLMessage(ACLMessage.REQUEST);
                 requestMessage.addReceiver(decisionAgent[0]);
                 try {
@@ -116,7 +124,7 @@ public class SendInfoPackage extends Behaviour {
                     decision = assignerDecision.getContent();
                     if(decision.equals("Accept")){
                         step=5;
-                        System.out.println("super - mam parking");
+                        System.out.println(myAgent.getName() + " ma parking");
                     }else{
                         step=0;
                     }

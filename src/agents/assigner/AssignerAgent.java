@@ -1,10 +1,7 @@
 package agents.assigner;
+
 import agents.assigner.behaviours.AcceptParking;
 import agents.assigner.behaviours.AssignParking;
-import agents.assigner.behaviours.GetInfoPackage;
-import agents.assigner.dto.DBConnector;
-import agents.assigner.dto.ParkingState;
-import agents.car.dto.GPSPos;
 import agents.assigner.dto.DBConnector;
 import jade.core.Agent;
 import jade.domain.DFService;
@@ -12,11 +9,9 @@ import jade.domain.FIPAAgentManagement.DFAgentDescription;
 import jade.domain.FIPAAgentManagement.ServiceDescription;
 import jade.domain.FIPAException;
 
-import java.util.ArrayList;
-
 
 public class AssignerAgent extends Agent {
-    DBConnector DB;
+    private DBConnector DB;
 
     protected void setup() {
         DFAgentDescription dfd = new DFAgentDescription();

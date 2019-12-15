@@ -11,8 +11,8 @@ public class GPSPos implements Serializable {
     public GPSPos(int minCordX, int maxCordY, boolean random) {
         if(random){
             Random randomCord = new Random();
-            this.xCordOfCar = minCordX + randomCord.nextInt(maxCordY);
-            this.yCordOfCar = minCordX + randomCord.nextInt(maxCordY);
+            this.xCordOfCar = (int)(Math.random()*((maxCordY-minCordX)+1))+minCordX;
+            this.yCordOfCar = (int)(Math.random()*((maxCordY-minCordX)+1))+minCordX;
         }else{
             this.xCordOfCar = minCordX;
             this.yCordOfCar = maxCordY;

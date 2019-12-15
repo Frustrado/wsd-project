@@ -1,21 +1,15 @@
 package agents.assigner.behaviours;
 
-import FIPA.DateTime;
 import agents.assigner.dto.DBConnector;
-
 import agents.assigner.dto.ParkingState;
-import agents.car.CarAgent;
 import agents.car.dto.GPSPos;
-import agents.decision.dto.Proposition;
 import jade.core.AID;
 import jade.core.behaviours.CyclicBehaviour;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
 import jade.lang.acl.UnreadableException;
 
-import javax.naming.ldap.PagedResultsControl;
 import java.io.IOException;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
@@ -39,7 +33,7 @@ public class AssignParking extends CyclicBehaviour {
                         carAgent = message.getSender();
                         step = 1;
 
-                        System.out.println("message from car: " + carAgent.getName() + "\nx: " + gpsPos.getxCordOfCar() + "\ny: " + gpsPos.getyCordOfCar());
+                        System.out.println("message from car: " + carAgent.getName() + " x: " + gpsPos.getxCordOfCar() + " y: " + gpsPos.getyCordOfCar());
 
                     } catch (UnreadableException e) {
                         e.printStackTrace();

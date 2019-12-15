@@ -1,17 +1,10 @@
 package agents.assigner.behaviours;
 
 import agents.assigner.dto.DBConnector;
-
-import agents.assigner.dto.ParkingState;
-import agents.car.dto.GPSPos;
 import jade.core.AID;
 import jade.core.behaviours.CyclicBehaviour;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
-import jade.lang.acl.UnreadableException;
-
-import java.io.IOException;
-import java.sql.ResultSet;
 
 
 public class AcceptParking extends CyclicBehaviour {

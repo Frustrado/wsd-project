@@ -5,13 +5,10 @@ import jade.core.AID;
 import jade.core.behaviours.CyclicBehaviour;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.UnreadableException;
-
 import java.util.*;
-
 import static java.util.Comparator.*;
 
-
-public class considerRequests extends CyclicBehaviour {
+public class ConsiderRequests extends CyclicBehaviour {
     private int step = 0;
     private Map<AID, Proposition> requests = new HashMap<AID, Proposition>();
     private Map<AID, String> answers = new HashMap<AID, String>();
@@ -19,7 +16,7 @@ public class considerRequests extends CyclicBehaviour {
 
         switch (step) {
             case 0:
-                System.out.println("case 0");
+                //System.out.println("case 0");
                 ACLMessage message = null;
                 while(requests.size()<1){
                     message = myAgent.receive();//should be table of messages because of many carAgents(but it was only test xd)
@@ -41,9 +38,9 @@ public class considerRequests extends CyclicBehaviour {
 
                 break;
             case 1://reply with candidate pos
-                System.out.println("case  1");
+                //System.out.println("case  1");
                 for(AID carId : answers.keySet()){
-                    System.out.println("case1: " + carId);
+                    //System.out.println("case1: " + carId);
                     ACLMessage candidateMessage = new ACLMessage(ACLMessage.INFORM);
                     candidateMessage.setContent(answers.get(carId));
                     candidateMessage.addReceiver(carId);

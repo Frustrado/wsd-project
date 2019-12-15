@@ -1,5 +1,5 @@
 package agents.decision;
-import agents.decision.behaviours.considerRequests;
+import agents.decision.behaviours.ConsiderRequests;
 import jade.core.Agent;
 import jade.domain.DFService;
 import jade.domain.FIPAAgentManagement.DFAgentDescription;
@@ -21,7 +21,7 @@ public class DecisionAgent extends Agent {
         } catch (FIPAException e) {
             e.printStackTrace();
         }
-        addBehaviour(new considerRequests());
+        addBehaviour(new ConsiderRequests());
     }
 
     protected void takeDown() {
