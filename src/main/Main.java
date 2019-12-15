@@ -48,9 +48,9 @@ public class Main {
                 GPSPos carPos = new GPSPos(1,10,true);
                 Integer posX = carPos.getxCordOfCar();
                 Integer posY = carPos.getyCordOfCar();
-                System.out.println("POSX: " + posX + " POSY: " + posY);
+                System.out.println("POSiX: " + posX + " POSY: " + posY);
                 mainContainer.createNewAgent("Car-" + i,
-                        "agents.car.CarAgent", new Object[]{posX, posY}).start();
+                        "agents.car.CarAgent", new Object[]{posX.toString(), posY.toString()}).start();
             }
 
 

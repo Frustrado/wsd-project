@@ -12,14 +12,23 @@ public class ConsiderRequests extends CyclicBehaviour {
     private int step = 0;
     private Map<AID, Proposition> requests = new HashMap<AID, Proposition>();
     private Map<AID, String> answers = new HashMap<AID, String>();
+    private long startTime = System.currentTimeMillis();
+    private long currentTime = System.currentTimeMillis();
     public void action() {
-
         switch (step) {
             case 0:
                 //System.out.println("case 0");
                 ACLMessage message = null;
-                while(requests.size()<1){
+                //System.out.println("requsets size: " + requests.size() + ", time diff: " + (currentTime-startTime)/1000);
+                if(startTime==0 || (currentTime-startTime)>5000){
+                    startTime = System.currentTimeMillis();
+                }
+                while(requests.size()<4 && (currentTime-startTime)<5000){
                     message = myAgent.receive();//should be table of messages because of many carAgents(but it was only test xd)
+                    if(startTime != 0){
+                        currentTime = System.currentTimeMillis();
+                        //System.out.println("Time elapsed:" + (currentTime-startTime)/1000);
+                    }
                     if (message != null) {
                         try {
                             Proposition prop = (Proposition) message.getContentObject();
@@ -33,6 +42,7 @@ public class ConsiderRequests extends CyclicBehaviour {
                         }
                     } else block();
                 }
+                startTime = 0;
                 decide();
                 step = 1;
 

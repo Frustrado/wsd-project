@@ -15,8 +15,8 @@ public class CarAgent extends Agent{
     protected void setup() {
         Object[] args = getArguments();
         if (args!= null && args.length>0){
-            int x = (int) args[0];
-            int y = (int) args[1];
+            int x = Integer.parseInt((String)args[0]);
+            int y = Integer.parseInt((String)args[1]);
             currentPos = new GPSPos(x,y,false);
 
         }else {
