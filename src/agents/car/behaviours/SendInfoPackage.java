@@ -67,6 +67,8 @@ public class SendInfoPackage extends Behaviour {
                     ACLMessage message = new ACLMessage(ACLMessage.CFP);
                     message.addReceiver(assignerAgent[0]);
                     try {
+                        System.out.println(myAgent.getName() +"sent message " + "x: "+ currPos.getxCordOfCar() + ","
+                                +"y: " + currPos.getyCordOfCar() + " to " + assignerAgent[0].getName());
                         message.setContentObject(currPos);
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -80,6 +82,8 @@ public class SendInfoPackage extends Behaviour {
                 if (candidateProposal != null) {
                     try {
                         candidateProp = (ParkingState) candidateProposal.getContentObject();
+                        System.out.println(myAgent.getName() + " got propose from Assigner Parking ID: "
+                                + candidateProp.getParkingId());
                     } catch (UnreadableException e) {
                         e.printStackTrace();
                     }
@@ -95,6 +99,8 @@ public class SendInfoPackage extends Behaviour {
                 requestMessage.addReceiver(decisionAgent[0]);
                 try {
                     requestMessage.setContentObject(request);
+                    System.out.println(myAgent.getName() + " sent propose to DecisionAgent with Parking ID: "
+                            + candidateProp.getParkingId());
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -107,12 +113,14 @@ public class SendInfoPackage extends Behaviour {
                 if (answer != null) {
                     decision = answer.getContent();
                     if(decision.equals("Accept")){
+                        System.out.println(myAgent.getName() + "agent got Accept decision from DecisionAgent");
                         ACLMessage parkingIDMessage = new ACLMessage(ACLMessage.INFORM);
                         parkingIDMessage.addReceiver(assignerAgent[0]);
                         parkingIDMessage.setContent(Integer.toString(candidateProp.getParkingId()));
                         myAgent.send(parkingIDMessage);
                         step = 4;
                     }else{
+                        System.out.println(myAgent.getName() + "agent got Reject decision from DecisionAgent");
                         step=0;
                     }
                 } else block();
@@ -124,9 +132,10 @@ public class SendInfoPackage extends Behaviour {
                     decision = assignerDecision.getContent();
                     if(decision.equals("Accept")){
                         step=5;
-                        System.out.println(myAgent.getName() + " ma parking");
+                        System.out.println(myAgent.getName() + "agent got Accept decision from Assigner and have parking");
                     }else{
                         step=0;
+                        System.out.println(myAgent.getName() + "agent got Reject decision from Assigner ");
                     }
                     break;
                 } else block();

@@ -9,7 +9,7 @@ import jade.domain.FIPAException;
 
 public class DecisionAgent extends Agent {
     protected void setup() {
-        System.out.println("Decision Agent:  "+getAID().getName()+" zaczal dzialanie.");
+        System.out.println("Decision Agent:  "+getAID().getName()+" started working");
         DFAgentDescription dfd = new DFAgentDescription();
         dfd.setName(getAID());
         ServiceDescription sd = new ServiceDescription();
@@ -26,6 +26,6 @@ public class DecisionAgent extends Agent {
 
     protected void takeDown() {
         //myGui.dispose();
-        System.out.println("Agent auto "+getAID().getName()+" zakonczyl.");
+        System.out.println("Agent auto "+getAID().getName()+" finished.");
     }
 }

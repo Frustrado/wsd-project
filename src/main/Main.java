@@ -44,11 +44,10 @@ public class Main {
                     "agents.decision.DecisionAgent",null).start();
 
             sleep(5000);
-            for (int i=0;i<10;++i ){
+            for (int i=0;i<3;++i ){
                 GPSPos carPos = new GPSPos(1,10,true);
                 Integer posX = carPos.getxCordOfCar();
                 Integer posY = carPos.getyCordOfCar();
-                System.out.println("POSiX: " + posX + " POSY: " + posY);
                 mainContainer.createNewAgent("Car-" + i,
                         "agents.car.CarAgent", new Object[]{posX.toString(), posY.toString()}).start();
             }

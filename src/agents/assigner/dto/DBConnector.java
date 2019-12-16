@@ -25,7 +25,7 @@ public class DBConnector {
         conn = DriverManager.getConnection(
                 "jdbc:postgresql://34.77.32.223:5432/postgres", "postgres", "wsdteam123");
         if (conn != null) {
-            System.out.println("Connected to the database!");
+            //System.out.println("Connected to the database!");
         } else {
             System.out.println("Failed to make connection!");
         }

@@ -34,13 +34,13 @@ public class CarAgent extends Agent{
         } catch (FIPAException e) {
             e.printStackTrace();
         }
-        System.out.println("Agent auto "+getAID().getName()+" zaczal dzialanie.");
+        System.out.println("Agent "+getAID().getName()+" started working.");
 
         addBehaviour(new SendInfoPackage(currentPos));
     }
 
     protected void takeDown() {
-        System.out.println("Agent auto "+getAID().getName()+" zakonczyl.");
+        System.out.println("Agent "+getAID().getName()+" finished");
 
     }
 }

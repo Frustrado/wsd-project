@@ -33,8 +33,8 @@ public class ConsiderRequests extends CyclicBehaviour {
                         try {
                             Proposition prop = (Proposition) message.getContentObject();
                             AID carId = message.getSender();
-                            System.out.println("parking prop from car: " + carId.getName() + "x: " + prop.parking.getXPos() + " y: " + prop.parking.getYPos());
-                            System.out.println("car: " + prop.carPos);
+                            System.out.println("Parking prop from car: " + carId.getName() + "x: " + prop.parking.getXPos() + " y: " + prop.parking.getYPos());
+                            //System.out.println("car: " + prop.carPos);
                             requests.put(carId, prop);
 
                         } catch (UnreadableException e) {
@@ -56,6 +56,7 @@ public class ConsiderRequests extends CyclicBehaviour {
                     candidateMessage.addReceiver(carId);
                     candidateMessage.setReplyWith("answers");
                     myAgent.send(candidateMessage);
+                    System.out.println("DecisionAgent " + answers.get(carId) + " proposition from " + carId.getName());
                 }
                 answers.clear();
                 requests.clear();

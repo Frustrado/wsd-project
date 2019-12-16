@@ -33,7 +33,7 @@ public class AssignerAgent extends Agent {
         } catch (FIPAException e) {
             e.printStackTrace();
         }
-        System.out.println("Agent auto "+getAID().getName()+" zaczal dzialanie.");
+        System.out.println("Agent "+getAID().getName()+" started working");
 //        addBehaviour(new GetInfoPackage());
         addBehaviour(new AcceptParking());  // get pos and send parking
         addBehaviour(new AssignParking());  // get parkingID and send decision
@@ -53,7 +53,7 @@ public class AssignerAgent extends Agent {
     protected void takeDown() {
         //myGui.dispose();
         DB.disconnect();
-        System.out.println("Agent auto "+getAID().getName()+" zakonczyl.");
+        System.out.println("Agent auto "+getAID().getName()+" finished.");
     }
 
 }

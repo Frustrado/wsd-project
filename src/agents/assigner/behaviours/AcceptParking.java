@@ -25,7 +25,7 @@ public class AcceptParking extends CyclicBehaviour {
                     carAgent = message.getSender();
                     step = 1;
 
-                    System.out.println("message from car: " + carAgent.getName() + "\nParking ID:" + parkingID.toString());
+                    System.out.println("Assigner got message from car: " + carAgent.getName() + " Parking ID:" + parkingID.toString());
 
                 } else
                     block();
@@ -39,11 +39,13 @@ public class AcceptParking extends CyclicBehaviour {
                     ACLMessage propositionMessage = new ACLMessage(ACLMessage.REFUSE); // TODO refuse?
                     propositionMessage.addReceiver(carAgent);
                     propositionMessage.setContent("Refuse");
+                    System.out.println("Assigner refused proposition from car: " + carAgent.getName() + " with Parking ID:" + parkingID.toString());
                     myAgent.send(propositionMessage);
                 } else {
                     ACLMessage propositionMessage = new ACLMessage(ACLMessage.AGREE); // TODO agree?
                     propositionMessage.addReceiver(carAgent);
                     propositionMessage.setContent("Accept");
+                    System.out.println("Assigner accepted proposition from car: " + carAgent.getName() + " with Parking ID:" + parkingID.toString());
                     myAgent.send(propositionMessage);
                 }
 

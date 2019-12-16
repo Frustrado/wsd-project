@@ -33,7 +33,8 @@ public class AssignParking extends CyclicBehaviour {
                         carAgent = message.getSender();
                         step = 1;
 
-                        System.out.println("message from car: " + carAgent.getName() + " x: " + gpsPos.getxCordOfCar() + " y: " + gpsPos.getyCordOfCar());
+                        System.out.println(myAgent.getName() + " got message from car: " + carAgent.getName() + " x: "
+                                + gpsPos.getxCordOfCar() + ",y: " + gpsPos.getyCordOfCar());
 
                     } catch (UnreadableException e) {
                         e.printStackTrace();
@@ -67,7 +68,8 @@ public class AssignParking extends CyclicBehaviour {
                     e.printStackTrace();
                 }
                 myAgent.send(propositionMessage);
-
+                System.out.println(myAgent.getName() + " sent message to car: "
+                        + carAgent.getName() + " ParkingID: " + proposition.getParkingId());
                 step = 0;   // get back to listening for messages
                 break;
         }
